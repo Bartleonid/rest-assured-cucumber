@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>pms-cucumber</groupId>
+	<artifactId>cucumber</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<properties>
+		<maven.compiler.version>3.6.0</maven.compiler.version>
+		<cucumber.version>6.10.2</cucumber.version>
+		<java.version>1.8</java.version>
+		<junit.version>4.13.2</junit.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-testng</artifactId>
+			<version>6.10.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>4.3.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.4.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20210307</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</testResource>
+		</testResources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.version}</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<compilerArgument>-Werror</compilerArgument>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+				<version>5.4.0</version>
+				<executions>
+					<execution>
+						<id>execution</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<projectName>presence-api</projectName>
+							<!-- optional, per documentation set this to "true" to bypass generation 
+								of Cucumber Reports entirely, defaults to false if not specified -->
+							<skip>false</skip>
+							<!-- output directory for the generated report -->
+							<outputDirectory>reports</outputDirectory>
+							<!-- optional, defaults to outputDirectory if not specified -->
+							<inputDirectory>${project.build.directory}</inputDirectory>
+							<jsonFiles>
+								<!-- supports wildcard or name pattern -->
+								<param>**/*.json</param>
+							</jsonFiles>
+							<!-- optional, defaults to outputDirectory if not specified -->
+							<classificationDirectory>${project.build.directory}</classificationDirectory>
+							<classificationFiles>
+								<!-- supports wildcard or name pattern -->
+								<param>sample.properties</param>
+								<param>other.properties</param>
+							</classificationFiles>
+							<parallelTesting>false</parallelTesting>
+							<!-- optional, set true to group features by its Ids -->
+							<mergeFeaturesById>false</mergeFeaturesById>
+							<!-- optional, set true to get a final report with latest results 
+								of the same test from different test runs -->
+							<mergeFeaturesWithRetest>false</mergeFeaturesWithRetest>
+							<!-- optional, set true to fail build on test failures -->
+							<checkBuildResult>false</checkBuildResult>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
